@@ -1,0 +1,6 @@
+[submodule "infra"]
+	path = infra
+	url = git@github.com:marcoscannabrava/infra.git
+[submodule "supabase"]
+	path = supabase
+	url = https://github.com/supabase/supabase
