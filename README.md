@@ -9,12 +9,12 @@
 `supabase` → backend as a service - https://github.com/supabase/supabase
 
 
-# configuration
-1. Create `.env` files in each folder according to the provided `.env.example`
-2. Configure Nginx `default.conf.template` to proxy services to their subdomains
-
 # deployment
 ```sh
+# first set up environment variables for infra (1) and each app (2)
+# 1. Create `terraform.tfvars` in `infra` according to `terraform.tfvars.example`
+# 2. Create `.env` files in each app folder according to each `.env.example`
+
 # provision infra - see infra/README.md for more details
 cd infra
 terraform init && terraform plan
