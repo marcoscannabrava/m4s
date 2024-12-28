@@ -1,0 +1,48 @@
+server {
+  listen 80;
+  server_name ${DOMAIN_NAME};
+
+  location /hello {
+    default_type text/plain;
+    return 200 'Hello, World!';
+  }
+}
+
+server {
+  listen 80;
+  server_name n8n.${DOMAIN_NAME};
+
+  location / {
+    proxy_pass http://n8n:5678;
+    proxy_set_header Host $host;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_cache_bypass $http_upgrade;
+  }
+}
+
+server {
+  listen 80;
+  server_name supabase.${DOMAIN_NAME};
+
+  location / {
+    proxy_pass http://supabase:8000;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+  }
+}
+
+server {
+  listen 80;
+  server_name studio.supabase.${DOMAIN_NAME};
+
+  location / {
+    proxy_pass http://studio:3000;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+  }
+}

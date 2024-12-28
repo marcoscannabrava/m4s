@@ -2,7 +2,16 @@
 
 `infra` → spins up Hetzner box - https://www.hetzner.com/
 
+`nginx` → reverse proxy - https://nginx.org/
+
+`n8n` → workflow automation - https://n8n.io/
+
 `supabase` → backend as a service - https://github.com/supabase/supabase
+
+
+# configuration
+1. Create `.env` files in each folder according to the provided `.env.example`
+2. Configure Nginx `default.conf.template` to proxy services to their subdomains
 
 # deployment
 ```sh
@@ -12,12 +21,6 @@ terraform init && terraform plan
 terraform apply
 cd ..
 
-# configure server
-scp -r supabase/docker m4sdev:/home/supabase
-scp -r infra/server/ m4sdev:/home/server
-
-# start services
-ssh m4sdev
-cd /home/infra && docker compose up -d
-cd /home/docker && docker compose up -d
+# configure server and start services
+./deploy.sh
 ```

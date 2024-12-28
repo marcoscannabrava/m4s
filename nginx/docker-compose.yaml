@@ -1,0 +1,10 @@
+services:
+  # https://nginx.org/ - reverse proxy
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:80"
+    volumes:
+      - ./default.conf.template:/etc/nginx/templates/default.conf.template
+    env_file: .env
