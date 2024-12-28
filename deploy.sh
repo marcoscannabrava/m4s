@@ -1,17 +1,30 @@
-set -eux
+set -eu
 
-echo -e "\e[33mUploading docker and env files to m4sdev...\e[0m"
-scp -r infra/nginx m4sdev:/home/nginx
-scp -r infra/n8n m4sdev:/home/n8n
+yellow='\033[1;33m'
+green='\033[0;32m'
+nc='\033[0m'
+
+# these host folder names determine the docker compose default network names used by nginx
+echo "$yellow Uploading docker and env files to m4sdev..."
+scp -r nginx m4sdev:/home/nginx
+scp -r n8n m4sdev:/home/n8n
 scp -r supabase/docker m4sdev:/home/supabase
-echo "...upload finished."
+echo "$green ...done."
 
-echo "Starting services on m4sdev..."
+echo "$yellow Pulling images on m4sdev..."
+ssh m4sdev bash -s << EOF
+cd /home/nginx && docker compose pull
+cd /home/n8n && docker compose pull
+cd /home/supabase && docker compose pull
+EOF
+echo "$green ...done."
+
+echo "$yellow Starting services on m4sdev..."
 ssh m4sdev bash -s << EOF
 cd /home/nginx && docker compose up -d
 cd /home/n8n && docker compose up -d
 cd /home/supabase && docker compose up -d
 EOF
-echo "...services started."
+echo "$green ...done."
 
-echo -e "\e[32mDone!\e[0m"
+echo "$green Deployed!$nc"
