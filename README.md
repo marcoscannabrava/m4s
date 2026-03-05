@@ -25,6 +25,11 @@ cd ..
 ./deploy.sh
 ```
 
+```sh
+# deploying a static website to b2
+./deploy_static_assets_to_b2 www-m4s-dev infra/server/www
+```
+
 # troubleshooting
 ```sh
 # stop all services
